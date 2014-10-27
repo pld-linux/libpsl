@@ -4,9 +4,9 @@ Version:	0.5.1
 Release:	1
 License:	MIT
 Group:		Networking
-URL:		https://rockdaboot.github.io/libpsl
-Source0:	https://github.com/rockdaboot/libpsl/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:	https://github.com/rockdaboot/libpsl/archive/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	3ef1aba32c2422b3527d86d3fb47c18e
+URL:		https://rockdaboot.github.io/libpsl
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
@@ -14,6 +14,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	gtk-doc
 BuildRequires:	libicu-devel
 BuildRequires:	libxslt
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 libpsl is a C library to handle the Public Suffix List. A "public
@@ -21,14 +22,12 @@ suffix" is a domain name under which Internet users can directly
 register own names.
 
 Browsers and other web clients can use it to
-
 - Avoid privacy-leaking "supercookies";
 - Avoid privacy-leaking "super domain" certificates;
 - Domain highlighting parts of the domain in a user interface;
 - Sorting domain lists by site;
 
 Libpsl...
-
 - has built-in PSL data for fast access;
 - allows to load PSL data from files;
 - checks if a given domain is a "public suffix";
@@ -39,11 +38,11 @@ Libpsl...
 - is thread-safe;
 - handles IDNA2008 UTS#46;
 
-%package        devel
+%package devel
 Summary:	Development files for %{name}
 Requires:	%{name} = %{version}-%{release}
 
-%description    devel
+%description devel
 This package contains libraries and header files for developing
 applications that use %{name}.
 
@@ -64,8 +63,8 @@ checks if cookie-domain is acceptable for domains and so on.
 
 %configure \
 	--disable-silent-rules \
-	--disable-static	   \
-	--enable-man		   \
+	--disable-static \
+	--enable-man \
 	--enable-gtk-doc
 
 %{__make}
@@ -74,21 +73,20 @@ checks if cookie-domain is acceptable for domains and so on.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS NEWS README.md
-%attr(755,root,root) %ghost %{_libdir}/libpsl.so.0
 %attr(755,root,root) %{_libdir}/libpsl.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libpsl.so.0
 
 %files devel
 %defattr(644,root,root,755)
@@ -98,7 +96,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/libpsl.3*
 #%{_datadir}/gtk-doc/html/libpsl/
 %{_datadir}/%{name}
-
 %exclude %{_datadir}/libpsl/test_psl.txt
 
 %files utils
