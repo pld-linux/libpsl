@@ -1,7 +1,7 @@
 Summary:	C library for the Publix Suffix List
 Name:		libpsl
 Version:	0.5.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Networking
 Source0:	https://github.com/rockdaboot/libpsl/archive/%{version}/%{name}-%{version}.tar.gz
@@ -9,6 +9,7 @@ Source0:	https://github.com/rockdaboot/libpsl/archive/%{version}/%{name}-%{versi
 URL:		https://rockdaboot.github.io/libpsl
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	gettext-autopoint
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel
 BuildRequires:	gtk-doc
