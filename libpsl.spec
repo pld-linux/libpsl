@@ -1,4 +1,5 @@
 Summary:	C library for the Publix Suffix List
+Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
 Version:	0.5.1
 Release:	2
@@ -39,22 +40,57 @@ Libpsl...
 - is thread-safe;
 - handles IDNA2008 UTS#46;
 
+%description -l pl.UTF-8
+libpsl to biblioteka C do obsługi listy przyrostków publicznych
+(Public Suffix List). "Przyrostek publiczny" to nazwa domeny, poniżej
+której bezpośrednio użytkownicy Internetu mogą rejestrować własne
+nazwy.
+
+Przeglądarki i inni klienci WWW mogą jej używać w celu:
+- zapobieganiu "superciasteczek" naruszającym prywatność
+- zapobieganiu certyfikatom "superdomenowym" naruszającym prywatność
+- podświetlania części domen w interfejsie użytkownika
+- sortowania listy domen według serwisu.
+
+Libpsl:
+- ma wbudowane dane PSL dla szybkiego dostępu
+- pozwala na wczytywanie danych PSL z plików
+- sprawdza, czy dana domena jest "przyrostkiem publicznym"
+- zapewnia natychmiastową weryfikację domeny ciasteczka
+- znajduje najdłuższą publiczną część podanej domeny
+- znajduje najkrótszą prywatną część podanej domeny
+- działa z domenami międzynarodowymi (UTF-8 i IDNA2008 Punycode)
+- jest bezpieczna względem wątków
+- obsługuje IDNA2008 UTS#46.
+
 %package devel
-Summary:	Development files for %{name}
+Summary:	Development files for libpsl
+Summary(pl.UTF-8):	Pliki programistyczne biblioteki libpsl
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-This package contains libraries and header files for developing
-applications that use %{name}.
+This package contains the header file for developing applications that
+use libpsl.
+
+%description devel -l pl.UTF-8
+Ten pakiet zawiera plik nagłówkowy do tworzenia aplikacji
+wykorzystujących bibliotekę libpsl.
 
 %package utils
 Summary:	Commandline utility to explore the Public Suffix List
+Summary(pl.UTF-8):	Narzędzie linii poleceń do eksplorowania listy przyrostków publicznych
 Requires:	%{name} = %{version}-%{release}
 
 %description utils
 This package contains a commandline utility to explore the Public
 Suffix List, for example it checks if domains are public suffixes,
 checks if cookie-domain is acceptable for domains and so on.
+
+%description utils -l pl.UTF-8
+Ten pakiet zawiera narzędzie linii poleceń do eksplorowania listy
+przyrostków publicznych (Public Suffix List); sprawdza ono na
+przykład, czy domeny są przyrostkami publicznymi, czy domena
+ciasteczka jest akceptowalna dla domen itp.
 
 %prep
 %setup -q
@@ -77,6 +113,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/libpsl/test_psl.txt
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -97,7 +135,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/libpsl.3*
 #%{_datadir}/gtk-doc/html/libpsl/
 %{_datadir}/%{name}
-%exclude %{_datadir}/libpsl/test_psl.txt
 
 %files utils
 %defattr(644,root,root,755)
