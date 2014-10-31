@@ -1,21 +1,26 @@
+#
+# Conditional build:
+%bcond_without	static_libs	# static library
+#
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.5.1
-Release:	2
+Version:	0.6.0
+Release:	1
 License:	MIT
 Group:		Networking
 Source0:	https://github.com/rockdaboot/libpsl/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	3ef1aba32c2422b3527d86d3fb47c18e
+# Source0-md5:	3fc6e6701c92216f2cae0340704dba2e
 URL:		https://rockdaboot.github.io/libpsl
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	gettext-autopoint
-BuildRequires:	gettext-devel
+BuildRequires:	autoconf >= 2.59
+BuildRequires:	automake >= 1:1.10
+BuildRequires:	gettext-devel >= 0.18.1
 BuildRequires:	glib2-devel
-BuildRequires:	gtk-doc
+BuildRequires:	gtk-doc >= 1.15
 BuildRequires:	libicu-devel
-BuildRequires:	libxslt
+BuildRequires:	libtool >= 2:2
+BuildRequires:	libxslt-progs
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -66,6 +71,7 @@ Libpsl:
 %package devel
 Summary:	Development files for libpsl
 Summary(pl.UTF-8):	Pliki programistyczne biblioteki libpsl
+Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
@@ -76,9 +82,33 @@ use libpsl.
 Ten pakiet zawiera plik nagłówkowy do tworzenia aplikacji
 wykorzystujących bibliotekę libpsl.
 
+%package static
+Summary:	Static libpsl library
+Summary(pl.UTF-8):	Statyczna biblioteka libpsl
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static libpsl library.
+
+%description static -l pl.UTF-8
+Statyczna biblioteka libpsl.
+
+%package apidocs
+Summary:	API documentation for libpsl library
+Summary(pl.UTF-8):	Dokumentacja API biblioteki libpsl
+Group:		Documentation
+
+%description apidocs
+API documentation for libpsl library.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API biblioteki libpsl.
+
 %package utils
 Summary:	Commandline utility to explore the Public Suffix List
 Summary(pl.UTF-8):	Narzędzie linii poleceń do eksplorowania listy przyrostków publicznych
+Group:		Applications/Networking
 Requires:	%{name} = %{version}-%{release}
 
 %description utils
@@ -95,14 +125,24 @@ ciasteczka jest akceptowalna dla domen itp.
 %prep
 %setup -q
 
+# gettextize workaround
+%{__sed} -i -e 's,po/Makefile\.in,,' configure.ac
+
 %build
-./autogen.sh
+%{__gettextize}
+%{__gtkdocize}
+%{__libtoolize}
+%{__aclocal} -I m4
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 
 %configure \
 	--disable-silent-rules \
-	--disable-static \
+	%{!?with_static_libs:--disable-static} \
+	--enable-gtk-doc \
 	--enable-man \
-	--enable-gtk-doc
+	--with-html-dir=%{_gtkdocdir}
 
 %{__make}
 
@@ -114,6 +154,8 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/libpsl/test_psl.txt
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libpsl.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -123,7 +165,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README.md
+%doc AUTHORS COPYING NEWS README.md
 %attr(755,root,root) %{_libdir}/libpsl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libpsl.so.0
 
@@ -133,8 +175,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/libpsl.h
 %{_pkgconfigdir}/libpsl.pc
 %{_mandir}/man3/libpsl.3*
-#%{_datadir}/gtk-doc/html/libpsl/
 %{_datadir}/%{name}
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libpsl.a
+
+%files apidocs
+%defattr(644,root,root,755)
+%{_gtkdocdir}/libpsl
 
 %files utils
 %defattr(644,root,root,755)
