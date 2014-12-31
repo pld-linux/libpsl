@@ -14,7 +14,7 @@ Source0:	https://github.com/rockdaboot/libpsl/archive/%{version}/%{name}-%{versi
 URL:		https://rockdaboot.github.io/libpsl
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.10
-BuildRequires:	gettext-devel >= 0.18.1
+BuildRequires:	gettext-tools >= 0.18.1
 BuildRequires:	glib2-devel
 BuildRequires:	gtk-doc >= 1.15
 BuildRequires:	libicu-devel
