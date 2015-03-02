@@ -5,12 +5,13 @@
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.6.0
-Release:	2
+Version:	0.7.1
+Release:	1
 License:	MIT
 Group:		Networking
-Source0:	https://github.com/rockdaboot/libpsl/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	3fc6e6701c92216f2cae0340704dba2e
+Source0:	https://github.com/rockdaboot/libpsl/archive/%{name}-%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	953eb964a5c95c42246558cafc812607
+Patch0:		%{name}-am.patch
 URL:		https://rockdaboot.github.io/libpsl
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.10
@@ -20,6 +21,7 @@ BuildRequires:	gtk-doc >= 1.15
 BuildRequires:	libicu-devel
 BuildRequires:	libtool >= 2:2
 BuildRequires:	libxslt-progs
+BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -123,7 +125,8 @@ przykład, czy domeny są przyrostkami publicznymi, czy domena
 ciasteczka jest akceptowalna dla domen itp.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{name}-%{version}
+%patch0 -p1
 
 # gettextize workaround
 %{__sed} -i -e 's,po/Makefile\.in,,' configure.ac
