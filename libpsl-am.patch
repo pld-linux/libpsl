@@ -1,32 +1,10 @@
---- libpsl-libpsl-0.7.1/Makefile.am.orig	2015-03-02 18:19:48.641096106 +0100
-+++ libpsl-libpsl-0.7.1/Makefile.am	2015-03-02 18:25:10.937749247 +0100
+--- libpsl-libpsl-0.8.1/Makefile.am.orig	2015-09-06 13:41:57.403162943 +0200
++++ libpsl-libpsl-0.8.1/Makefile.am	2015-09-06 13:42:53.456493926 +0200
 @@ -1,6 +1,7 @@
  # got some hints from https://gitorious.org/openismus-playground/examplelib/source
  
- SUBDIRS = po include src tools data $(LIBPSL_DOCS) tests
+ SUBDIRS = po include src tools $(LIBPSL_DOCS) tests
 +DIST_SUBDIRS = docs/libpsl
  
  ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
  
---- libpsl-libpsl-0.7.1/configure.ac.orig	2015-03-02 18:25:55.964414025 +0100
-+++ libpsl-libpsl-0.7.1/configure.ac	2015-03-02 20:20:44.577458269 +0100
-@@ -37,8 +37,6 @@
- ])
- 
- if test x"$have_gtk_doc" = xyes -a x"$enable_gtk_doc" = xyes; then
--  docdir_makefile=docs/libpsl/Makefile
--  docdir_version_xml=docs/libpsl/version.xml
-   AC_SUBST([LIBPSL_DOCS], [docs/libpsl])
- fi
- 
-@@ -253,8 +251,8 @@
-                  src/Makefile
-                  tools/Makefile
-                  po/Makefile.in
--                 ${docdir_makefile}
--                 ${docdir_version_xml}
-+                 docs/libpsl/Makefile
-+                 docs/libpsl/version.xml
-                  data/Makefile
-                  tests/Makefile
-                  libpsl.pc:libpsl.pc.in])

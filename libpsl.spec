@@ -5,12 +5,16 @@
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.7.1
-Release:	2
+Version:	0.8.1
+Release:	1
 License:	MIT
 Group:		Networking
 Source0:	https://github.com/rockdaboot/libpsl/archive/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	953eb964a5c95c42246558cafc812607
+# Source0-md5:	515060957760ed78d5bd5a87f424b5d5
+%define	psl_ref	1fc1ed365818a6a77d6f31d425ff03ca54cdc7f3
+%define	psldate	20150827
+Source1:	https://github.com/publicsuffix/list/archive/%{psl_ref}/publicsuffix_list-%{psldate}.tar.gz
+# Source1-md5:	ee9a591d4545d9f6ca350bd9df2c2e51
 Patch0:		%{name}-am.patch
 URL:		https://rockdaboot.github.io/libpsl
 BuildRequires:	autoconf >= 2.59
@@ -128,6 +132,10 @@ ciasteczka jest akceptowalna dla domen itp.
 %setup -q -n %{name}-%{name}-%{version}
 %patch0 -p1
 
+rmdir list
+%{__tar} xf %{SOURCE1}
+%{__mv} list-%{psl_ref} list
+
 # gettextize workaround
 %{__sed} -i -e 's,po/Makefile\.in,,' configure.ac
 
@@ -156,7 +164,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/libpsl/test_psl.txt
 # obsoleted by pkg-config
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libpsl.la
 
@@ -178,7 +185,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/libpsl.h
 %{_pkgconfigdir}/libpsl.pc
 %{_mandir}/man3/libpsl.3*
-%{_datadir}/%{name}
 
 %files static
 %defattr(644,root,root,755)
