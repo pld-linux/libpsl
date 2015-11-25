@@ -5,16 +5,20 @@
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.8.1
-Release:	2
+Version:	0.11.0
+Release:	1
 License:	MIT
 Group:		Networking
-Source0:	https://github.com/rockdaboot/libpsl/archive/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	515060957760ed78d5bd5a87f424b5d5
+#Source0Download: https://github.com/rockdaboot/libpsl/releases
+Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	f1b3c3d7c9c26e2bc339f91544d20827
+%if 0
+# not required if packaged with libpsl release
 %define	psl_ref	1fc1ed365818a6a77d6f31d425ff03ca54cdc7f3
 %define	psldate	20150827
 Source1:	https://github.com/publicsuffix/list/archive/%{psl_ref}/publicsuffix_list-%{psldate}.tar.gz
 # Source1-md5:	ee9a591d4545d9f6ca350bd9df2c2e51
+%endif
 Patch0:		%{name}-am.patch
 URL:		https://rockdaboot.github.io/libpsl
 BuildRequires:	autoconf >= 2.59
@@ -129,15 +133,14 @@ przykład, czy domeny są przyrostkami publicznymi, czy domena
 ciasteczka jest akceptowalna dla domen itp.
 
 %prep
-%setup -q -n %{name}-%{name}-%{version}
+%setup -q
 %patch0 -p1
 
+%if 0
 rmdir list
 %{__tar} xf %{SOURCE1}
 %{__mv} list-%{psl_ref} list
-
-# gettextize workaround
-%{__sed} -i -e 's,po/Makefile\.in,,' configure.ac
+%endif
 
 %build
 %{__gettextize}
@@ -175,7 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS COPYING NEWS README.md
+%doc AUTHORS COPYING NEWS
 %attr(755,root,root) %{_libdir}/libpsl.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libpsl.so.0
 
