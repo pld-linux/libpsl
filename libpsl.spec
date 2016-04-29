@@ -1,12 +1,12 @@
 #
 # Conditional build:
 %bcond_without	static_libs	# static library
-#
+
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
 Version:	0.11.0
-Release:	1
+Release:	2
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
@@ -108,6 +108,9 @@ Statyczna biblioteka libpsl.
 Summary:	API documentation for libpsl library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libpsl
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API documentation for libpsl library.
