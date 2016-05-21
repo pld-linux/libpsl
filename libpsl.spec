@@ -5,13 +5,13 @@
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.11.0
-Release:	4
+Version:	0.13.0
+Release:	1
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
 Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	f1b3c3d7c9c26e2bc339f91544d20827
+# Source0-md5:	fd99a6d7cc629faba1cb0633eaf73898
 %if 0
 # not required if packaged with libpsl release
 %define	psl_ref	1fc1ed365818a6a77d6f31d425ff03ca54cdc7f3
@@ -30,6 +30,7 @@ BuildRequires:	libicu-devel
 BuildRequires:	libtool >= 2:2
 BuildRequires:	libxslt-progs
 BuildRequires:	pkgconfig
+BuildRequires:	python >= 1:2.7
 BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -183,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING NEWS
 %attr(755,root,root) %{_libdir}/libpsl.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libpsl.so.0
+%attr(755,root,root) %ghost %{_libdir}/libpsl.so.5
 
 %files devel
 %defattr(644,root,root,755)
