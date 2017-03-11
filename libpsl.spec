@@ -1,12 +1,13 @@
 #
 # Conditional build:
 %bcond_without	static_libs	# static library
+%bcond_with	icu		# use ICU instead of libidn2+libunistring for IDNA2008
 
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
 Version:	0.17.0
-Release:	2
+Release:	3
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
@@ -26,7 +27,8 @@ BuildRequires:	automake >= 1:1.10
 BuildRequires:	gettext-tools >= 0.18.1
 BuildRequires:	glib2-devel
 BuildRequires:	gtk-doc >= 1.15
-BuildRequires:	libicu-devel
+%{?with_icu:BuildRequires:	libicu-devel}
+%{!?with_icu:BuildRequires:	libidn2-devel}
 BuildRequires:	libtool >= 2:2
 BuildRequires:	libxslt-progs
 BuildRequires:	pkgconfig
@@ -160,6 +162,8 @@ rmdir list
 	%{!?with_static_libs:--disable-static} \
 	--enable-gtk-doc \
 	--enable-man \
+	--enable-builtin=%{?with_icu:libicu}%{!?with_icu:libidn2} \
+	--enable-runtime=%{?with_icu:libicu}%{!?with_icu:libidn2} \
 	--with-html-dir=%{_gtkdocdir}
 
 %{__make}
