@@ -1,9 +1,9 @@
---- libpsl-libpsl-0.8.1/Makefile.am.orig	2015-09-06 13:41:57.403162943 +0200
-+++ libpsl-libpsl-0.8.1/Makefile.am	2015-09-06 13:42:53.456493926 +0200
+--- libpsl-0.19.1/Makefile.am.orig	2017-11-18 08:44:04.175496742 +0100
++++ libpsl-0.19.1/Makefile.am	2017-11-18 09:01:49.765484576 +0100
 @@ -1,6 +1,7 @@
  # got some hints from https://gitorious.org/openismus-playground/examplelib/source
  
- SUBDIRS = po include src tools $(LIBPSL_DOCS) tests
+ SUBDIRS = po include src tools $(LIBPSL_DOCS) fuzz tests
 +DIST_SUBDIRS = docs/libpsl
  
  ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
