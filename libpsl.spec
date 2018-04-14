@@ -6,13 +6,13 @@
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.19.1
+Version:	0.20.1
 Release:	1
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
 Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	663de429bfa0eb96c39ba57fb0866f5b
+# Source0-md5:	699f2ae7b20c78b2b65c6adce55de2e9
 %if 0
 # not required if packaged with libpsl release
 %define	psl_ref	1fc1ed365818a6a77d6f31d425ff03ca54cdc7f3
