@@ -20,6 +20,7 @@ Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{name}-%{versio
 Source1:	https://github.com/publicsuffix/list/archive/%{psl_ref}/publicsuffix_list-%{psldate}.tar.gz
 # Source1-md5:	ee9a591d4545d9f6ca350bd9df2c2e51
 %endif
+Patch0:		gtk-doc.patch
 URL:		https://rockdaboot.github.io/libpsl
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.10
@@ -139,6 +140,7 @@ ciasteczka jest akceptowalna dla domen itp.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %if 0
 rmdir list
