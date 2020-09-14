@@ -6,13 +6,13 @@
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.21.0
+Version:	0.21.1
 Release:	1
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
-Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	171e96d887709e36a57f4ee627bf82d2
+Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{version}/%{name}-%{version}.tar.lz
+# Source0-md5:	ebbc144e311a66cfdae503f48f21bf2d
 %if 0
 # not required if packaged with libpsl release
 %define	psl_ref	1fc1ed365818a6a77d6f31d425ff03ca54cdc7f3
@@ -20,7 +20,6 @@ Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{name}-%{versio
 Source1:	https://github.com/publicsuffix/list/archive/%{psl_ref}/publicsuffix_list-%{psldate}.tar.gz
 # Source1-md5:	ee9a591d4545d9f6ca350bd9df2c2e51
 %endif
-Patch0:		gtk-doc.patch
 URL:		https://rockdaboot.github.io/libpsl
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.10
@@ -34,6 +33,8 @@ BuildRequires:	libxslt-progs
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.7
 BuildRequires:	sed >= 4.0
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -111,7 +112,7 @@ Statyczna biblioteka libpsl.
 Summary:	API documentation for libpsl library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libpsl
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
+%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
 %endif
 
@@ -140,7 +141,6 @@ ciasteczka jest akceptowalna dla domen itp.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %if 0
 rmdir list
@@ -156,7 +156,6 @@ rmdir list
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-
 %configure \
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static} \
