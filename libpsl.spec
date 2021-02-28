@@ -112,9 +112,7 @@ Statyczna biblioteka libpsl.
 Summary:	API documentation for libpsl library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libpsl
 Group:		Documentation
-%if "%{_rpmversion}" >= "4.6"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 API documentation for libpsl library.
