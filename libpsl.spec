@@ -1,5 +1,6 @@
 #
 # Conditional build:
+%bcond_without	apidocs		# don't build api docs
 %bcond_without	static_libs	# static library
 %bcond_with	icu		# use ICU instead of libidn2+libunistring for IDNA2008
 
@@ -7,7 +8,7 @@ Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
 Version:	0.21.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
@@ -25,13 +26,12 @@ BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.10
 BuildRequires:	gettext-tools >= 0.18.1
 BuildRequires:	glib2-devel
-BuildRequires:	gtk-doc >= 1.15
+%{?with_apidocs:BuildRequires:	gtk-doc >= 1.15}
 %{?with_icu:BuildRequires:	libicu-devel}
 %{!?with_icu:BuildRequires:	libidn2-devel}
 BuildRequires:	libtool >= 2:2
 BuildRequires:	libxslt-progs
 BuildRequires:	pkgconfig
-BuildRequires:	python >= 1:2.7
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -148,7 +148,7 @@ rmdir list
 
 %build
 %{__gettextize}
-%{__gtkdocize}
+%{?with_apidocs:%{__gtkdocize}}
 %{__libtoolize}
 %{__aclocal} -I m4
 %{__autoconf}
@@ -157,7 +157,7 @@ rmdir list
 %configure \
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static} \
-	--enable-gtk-doc \
+	%{?with_apidocs:--enable-gtk-doc} \
 	--enable-man \
 	--enable-builtin=%{?with_icu:libicu}%{!?with_icu:libidn2} \
 	--enable-runtime=%{?with_icu:libicu}%{!?with_icu:libidn2} \
@@ -171,6 +171,11 @@ rmdir list
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+%if !%{with apidos}
+install -d $RPM_BUILD_ROOT%{_mandir}/man3
+install -c -m 644 docs/libpsl/libpsl.3 $RPM_BUILD_ROOT%{_mandir}/man3
+%endif
 
 # obsoleted by pkg-config
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libpsl.la
@@ -202,9 +207,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libpsl.a
 %endif
 
+%if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
 %{_gtkdocdir}/libpsl
+%endif
 
 %files utils
 %defattr(644,root,root,755)
