@@ -172,7 +172,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%if !%{with apidos}
+%if !%{with apidocs}
 install -d $RPM_BUILD_ROOT%{_mandir}/man3
 install -c -m 644 docs/libpsl/libpsl.3 $RPM_BUILD_ROOT%{_mandir}/man3
 %endif
