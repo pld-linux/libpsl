@@ -7,13 +7,13 @@
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.21.1
-Release:	2
+Version:	0.21.2
+Release:	1
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
 Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{version}/%{name}-%{version}.tar.lz
-# Source0-md5:	ebbc144e311a66cfdae503f48f21bf2d
+# Source0-md5:	074379959be1bfe5355db6c331f10829
 %if 0
 # not required if packaged with libpsl release
 %define	psl_ref	1fc1ed365818a6a77d6f31d425ff03ca54cdc7f3
@@ -24,7 +24,7 @@ Source1:	https://github.com/publicsuffix/list/archive/%{psl_ref}/publicsuffix_li
 URL:		https://rockdaboot.github.io/libpsl
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.10
-BuildRequires:	gettext-tools >= 0.18.1
+BuildRequires:	gettext-tools >= 0.19.3
 BuildRequires:	glib2-devel
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.15}
 %{?with_icu:BuildRequires:	libicu-devel}
@@ -32,6 +32,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	libtool >= 2:2
 BuildRequires:	libxslt-progs
 BuildRequires:	pkgconfig
+BuildRequires:	python >= 1:2.7
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
