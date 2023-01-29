@@ -35,6 +35,7 @@ BuildRequires:	libxslt-progs
 BuildRequires:	lzip
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.7
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
