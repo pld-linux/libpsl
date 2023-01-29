@@ -34,7 +34,7 @@ BuildRequires:	libtool >= 2:2
 BuildRequires:	libxslt-progs
 BuildRequires:	lzip
 BuildRequires:	pkgconfig
-BuildRequires:	python >= 1:2.7
+BuildRequires:	python3
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
@@ -159,6 +159,7 @@ rmdir list
 %{__autoheader}
 %{__automake}
 %configure \
+	PYTHON=%{__python3} \
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static} \
 	%{?with_apidocs:--enable-gtk-doc} \
