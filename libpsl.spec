@@ -32,6 +32,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	libtool >= 2:2
 %{!?with_icu:BuildRequires:	libunistring-devel}
 BuildRequires:	libxslt-progs
+BuildRequires:	lzip
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.7
 BuildRequires:	sed >= 4.0
