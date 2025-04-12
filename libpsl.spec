@@ -7,13 +7,13 @@
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.21.2
-Release:	2
+Version:	0.21.5
+Release:	1
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
 Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{version}/%{name}-%{version}.tar.lz
-# Source0-md5:	074379959be1bfe5355db6c331f10829
+# Source0-md5:	ae11292a00af33f91af16acc04f6049b
 %if 0
 # not required if packaged with libpsl release
 %define	psl_ref	1fc1ed365818a6a77d6f31d425ff03ca54cdc7f3
@@ -34,8 +34,8 @@ BuildRequires:	libtool >= 2:2
 BuildRequires:	libxslt-progs
 BuildRequires:	lzip
 BuildRequires:	pkgconfig
-BuildRequires:	python3
-BuildRequires:	python3-modules
+BuildRequires:	python3 >= 1:3
+BuildRequires:	python3-modules >= 1:3
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
@@ -151,6 +151,8 @@ rmdir list
 %{__mv} list-%{psl_ref} list
 %endif
 
+%{__sed} -i -e '1s,/usr/bin/env python$,%{__python3},' src/psl-make-dafsa
+
 %build
 %{__gettextize}
 %{?with_apidocs:%{__gtkdocize}}
@@ -178,15 +180,13 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%if !%{with apidocs}
+%if %{without apidocs}
 install -d $RPM_BUILD_ROOT%{_mandir}/man3
-install -c -m 644 docs/libpsl/libpsl.3 $RPM_BUILD_ROOT%{_mandir}/man3
+cp -p docs/libpsl/libpsl.3 $RPM_BUILD_ROOT%{_mandir}/man3
 %endif
 
 # obsoleted by pkg-config
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libpsl.la
-# tool not installed
-%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/psl-make-dafsa.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -222,4 +222,6 @@ rm -rf $RPM_BUILD_ROOT
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/psl
+%attr(755,root,root) %{_bindir}/psl-make-dafsa
 %{_mandir}/man1/psl.1*
+%{_mandir}/man1/psl-make-dafsa.1*
