@@ -7,13 +7,13 @@
 Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
-Version:	0.21.5
+Version:	0.23.3
 Release:	1
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
 Source0:	https://github.com/rockdaboot/libpsl/releases/download/%{version}/%{name}-%{version}.tar.lz
-# Source0-md5:	ae11292a00af33f91af16acc04f6049b
+# Source0-md5:	0c58eed1e3261af688c4256fbb5209af
 %if 0
 # not required if packaged with libpsl release
 %define	psl_ref	1fc1ed365818a6a77d6f31d425ff03ca54cdc7f3
@@ -92,6 +92,9 @@ Summary:	Development files for libpsl
 Summary(pl.UTF-8):	Pliki programistyczne biblioteki libpsl
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+%{?with_icu:Requires:	libicu-devel}
+%{!?with_icu:Requires:	libidn2-devel}
+%{!?with_icu:Requires:	libunistring-devel}
 
 %description devel
 This package contains the header file for developing applications that
@@ -197,12 +200,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS COPYING NEWS
-%attr(755,root,root) %{_libdir}/libpsl.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libpsl.so.5
+%{_libdir}/libpsl.so.*.*.*
+%ghost %{_libdir}/libpsl.so.5
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libpsl.so
+%{_libdir}/libpsl.so
 %{_includedir}/libpsl.h
 %{_pkgconfigdir}/libpsl.pc
 %{_mandir}/man3/libpsl.3*
