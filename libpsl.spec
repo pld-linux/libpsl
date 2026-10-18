@@ -8,7 +8,7 @@ Summary:	C library for the Publix Suffix List
 Summary(pl.UTF-8):	Biblioteka C do obsługi listy przyrostków publicznych (Public Suffix List)
 Name:		libpsl
 Version:	0.23.3
-Release:	1
+Release:	2
 License:	MIT
 Group:		Networking
 #Source0Download: https://github.com/rockdaboot/libpsl/releases
@@ -91,10 +91,10 @@ Libpsl:
 Summary:	Development files for libpsl
 Summary(pl.UTF-8):	Pliki programistyczne biblioteki libpsl
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-%{?with_icu:Requires:	libicu-devel}
-%{!?with_icu:Requires:	libidn2-devel}
-%{!?with_icu:Requires:	libunistring-devel}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%{?with_icu:Requires:	libicu-devel%{?_isa}}
+%{!?with_icu:Requires:	libidn2-devel%{?_isa}}
+%{!?with_icu:Requires:	libunistring-devel%{?_isa}}
 
 %description devel
 This package contains the header file for developing applications that
@@ -108,7 +108,7 @@ wykorzystujących bibliotekę libpsl.
 Summary:	Static libpsl library
 Summary(pl.UTF-8):	Statyczna biblioteka libpsl
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description static
 Static libpsl library.
@@ -132,7 +132,7 @@ Dokumentacja API biblioteki libpsl.
 Summary:	Commandline utility to explore the Public Suffix List
 Summary(pl.UTF-8):	Narzędzie linii poleceń do eksplorowania listy przyrostków publicznych
 Group:		Applications/Networking
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description utils
 This package contains a commandline utility to explore the Public
